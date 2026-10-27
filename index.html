@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Entropia Medieval: RPG de aventura en islas. Tráiler, capturas y descargas para Windows, Mac y Android.">
+<meta property="og:title" content="Entropia Medieval">
+<meta property="og:description" content="Despierta en la orilla. Reclama las islas. Descarga gratis para Windows, Mac y Android.">
+<meta property="og:image" content="https://aaron2809.github.io/entropia-medieval-descargas/media/poster.jpg">
+<title>Entropia Medieval</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=IM+Fell+English:ital@0;1&family=Alegreya+Sans:wght@400;500;700;800&display=swap">
+<style>
+/* Layout: una sola columna de pergamino sobre mar nocturno; el tráiler manda arriba, las descargas cierran como un sello */
+:root {
+  --sea: #0d1c22;
+  --sea-2: #132a31;
+  --sea-3: #1b3a42;
+  --ember: #e6a33c;
+  --ember-hot: #ff7a3d;
+  --parch: #efe2c4;
+  --parch-dim: #b9ad93;
+  --rune: #6fd8e6;
+  --line: rgba(239, 226, 196, .14);
+  --display: "IM Fell English SC", "Iowan Old Style", Georgia, serif;
+  --serif: "IM Fell English", "Iowan Old Style", Georgia, serif;
+  --body: "Alegreya Sans", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+img, video { max-width: 100%; }
+html { background: var(--sea); }
+body {
+  margin: 0;
+  background: radial-gradient(1200px 600px at 70% -10%, #23444b 0%, transparent 60%), var(--sea);
+  color: var(--parch);
+  font: 400 1.0625rem/1.6 var(--body);
+}
+.wrap {
+  max-width: 1080px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+a { color: var(--ember); }
+a:focus-visible, button:focus-visible, video:focus-visible { outline: 2px solid var(--rune); outline-offset: 3px; border-radius: 6px; }
+
+/* cabecera */
+.top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 18px; }
+.mark { font: 1.15rem/1 var(--display); letter-spacing: .06em; color: var(--parch); text-decoration: none; display: flex; align-items: center; gap: 10px; }
+.mark svg { width: 26px; height: 26px; }
+.ver { font: 700 .78rem/1 var(--body); letter-spacing: .12em; text-transform: uppercase; color: var(--sea); background: var(--ember); padding: 7px 10px; border-radius: 999px; text-decoration: none; white-space: nowrap; }
+
+/* portada */
+.hero { display: grid; gap: 28px; padding-block: 18px 40px; }
+.hero h1 {
+  font: 400 clamp(2.6rem, 8vw, 5.4rem)/.92 var(--display); margin: 0; letter-spacing: .01em; text-wrap: balance;
+  background: linear-gradient(180deg, #fff3d6 0%, var(--ember) 70%, #b0661e 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.hero .lede { font: italic 400 clamp(1.15rem, 2.4vw, 1.45rem)/1.45 var(--serif); color: var(--parch); max-width: 34em; margin: 0; text-wrap: pretty; }
+.hero-text { display: grid; gap: 18px; }
+.cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.btn {
+  display: inline-flex; align-items: center; gap: 10px; text-decoration: none; cursor: pointer;
+  font: 800 1rem/1 var(--body); letter-spacing: .02em; border-radius: 10px; padding: 15px 20px; border: 0;
+}
+.btn-main { color: #2a1405; background: linear-gradient(180deg, #ffc76a, var(--ember) 55%, #c9781f); box-shadow: 0 0 0 1px #ffd99a inset, 0 10px 30px -10px var(--ember-hot); }
+.btn-main:hover { filter: brightness(1.08); }
+.btn-ghost { color: var(--parch); background: transparent; box-shadow: 0 0 0 1px var(--line) inset; }
+.btn-ghost:hover { box-shadow: 0 0 0 1px var(--parch-dim) inset; }
+
+.screen { position: relative; border-radius: 14px; overflow: hidden; background: #000; box-shadow: 0 0 0 1px var(--line), 0 30px 80px -30px #000; aspect-ratio: 16 / 9; max-width: 100%; }
+.screen video, .screen img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.screen .tag { position: absolute; left: 14px; top: 12px; font: 700 .72rem/1 var(--body); letter-spacing: .14em; text-transform: uppercase; background: rgba(13, 28, 34, .78); color: var(--ember); padding: 7px 9px; border-radius: 6px; pointer-events: none; }
+
+/* secciones */
+section { padding-block: 44px; border-top: 1px solid var(--line); }
+.eyebrow { font: 700 .78rem/1 var(--body); letter-spacing: .16em; text-transform: uppercase; color: var(--rune); margin: 0 0 10px; }
+h2 { font: 400 clamp(1.9rem, 4.5vw, 2.8rem)/1.05 var(--display); margin: 0 0 14px; text-wrap: balance; }
+.intro { max-width: 40em; color: var(--parch-dim); margin: 0 0 28px; }
+
+/* qué haces: lista tipo diario de viaje */
+.feats { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 26px 36px; }
+.feat { display: grid; grid-template-columns: 42px 1fr; gap: 14px; align-items: start; min-width: 0; }
+.feat svg { width: 42px; height: 42px; }
+.feat h3 { font: 400 1.35rem/1.15 var(--serif); margin: 2px 0 6px; color: var(--parch); }
+.feat p { margin: 0; color: var(--parch-dim); font-size: 1rem; }
+
+/* galería */
+.gallery { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+.gallery figure { margin: 0; min-width: 0; }
+.gallery figure:nth-child(1) { grid-column: span 4; }
+.gallery figure:nth-child(2) { grid-column: span 2; }
+.gallery figure:nth-child(n+3) { grid-column: span 2; }
+.gallery img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 10px; display: block; box-shadow: 0 0 0 1px var(--line); }
+.gallery figure:nth-child(2) img { height: 100%; }
+.gallery figcaption { font: italic .95rem/1.3 var(--serif); color: var(--parch-dim); margin-top: 7px; }
+@media (max-width: 720px) {
+  .gallery { grid-template-columns: 1fr 1fr; }
+  .gallery figure:nth-child(n) { grid-column: span 1; }
+  .gallery figure:nth-child(1) { grid-column: span 2; }
+  .gallery figure:nth-child(2) img { height: auto; }
+}
+
+/* descargas */
+.dl-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 20px; }
+.dl-head .stamp { font: 700 .8rem/1 var(--body); letter-spacing: .12em; text-transform: uppercase; color: var(--parch-dim); font-variant-numeric: tabular-nums; }
+.dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 14px; margin-top: 8px; }
+.card {
+  display: grid; grid-template-rows: auto auto 1fr auto; gap: 8px; min-width: 0;
+  background: linear-gradient(180deg, var(--sea-3), var(--sea-2)); border-radius: 12px; padding: 20px;
+  box-shadow: 0 0 0 1px var(--line) inset;
+}
+.card.rec { box-shadow: 0 0 0 1.5px var(--ember) inset; }
+.card .os { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.card .os b { font: 400 1.5rem/1 var(--display); }
+.card .pill { font: 700 .68rem/1 var(--body); letter-spacing: .12em; text-transform: uppercase; color: #2a1405; background: var(--ember); padding: 5px 7px; border-radius: 4px; }
+.card .meta { font: 500 .85rem/1.3 var(--body); color: var(--rune); font-variant-numeric: tabular-nums; }
+.card p { margin: 0; font-size: .95rem; color: var(--parch-dim); }
+.card .links { display: grid; gap: 8px; margin-top: 6px; }
+.card .btn { justify-content: center; padding: 13px 14px; font-size: .95rem; }
+.small { font-size: .9rem; color: var(--parch-dim); max-width: 46em; }
+
+/* novedades */
+.log { display: grid; gap: 0; }
+.entry { display: grid; grid-template-columns: 92px 1fr; gap: 18px; padding-block: 16px; border-top: 1px dashed var(--line); }
+.entry:first-child { border-top: 0; }
+.entry .v { font: 400 1.6rem/1 var(--display); color: var(--ember); font-variant-numeric: tabular-nums; }
+.entry ul { margin: 0; padding-left: 1.1em; color: var(--parch-dim); }
+.entry li + li { margin-top: 4px; }
+.entry li b { color: var(--parch); font-weight: 700; }
+@media (max-width: 520px) { .entry { grid-template-columns: 1fr; gap: 6px; } }
+
+footer { border-top: 1px solid var(--line); padding-block: 28px 40px; color: var(--parch-dim); font-size: .9rem; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; }
+
+@media (min-width: 900px) {
+  .hero { grid-template-columns: 1fr 1.25fr; align-items: center; gap: 40px; padding-top: 30px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hero h1, .hero .lede, .hero .cta { animation: rise .7s cubic-bezier(.2, .7, .2, 1) both; }
+  .hero .lede { animation-delay: .08s; }
+  .hero .cta { animation-delay: .16s; }
+  @keyframes rise { from { transform: translateY(10px); } to { transform: none; } }
+}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header class="top">
+    <a class="mark" href="#inicio">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 4 7v8c0 7.4 5 12.6 12 15 7-2.4 12-7.6 12-15V7z" fill="#1b3a42" stroke="#e6a33c" stroke-width="2"/><path d="M16 9v14M11 14h10" stroke="#efe2c4" stroke-width="2.2" stroke-linecap="round"/></svg>
+      Entropia Medieval
+    </a>
+    <a class="ver" href="#descargar">Versión 2.5</a>
+  </header>
+
+  <div class="hero" id="inicio">
+    <div class="hero-text">
+      <h1>Despierta en la orilla. Reclama las islas.</h1>
+      <p class="lede">Un RPG de aventura en islas encadenadas: lucha contra criaturas y jefes, aprende hechizos, forja tu arma, navega en tu barco y baja a dungeons con amigos. O juega solo, sin conexión, en el celular.</p>
+      <div class="cta">
+        <a class="btn btn-main" href="#descargar">
+          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 20h16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Descargar gratis
+        </a>
+        <a class="btn btn-ghost" href="#trailer">Ver el tráiler</a>
+      </div>
+    </div>
+    <div class="screen" id="trailer">
+      <video controls playsinline muted loop autoplay preload="metadata" poster="media/poster.jpg" aria-label="Tráiler de Entropia Medieval con escenas reales del juego">
+        <source src="media/trailer.mp4" type="video/mp4">
+      </video>
+      <span class="tag">Tráiler · escenas reales</span>
+    </div>
+  </div>
+
+  <section id="juego">
+    <p class="eyebrow">De qué trata</p>
+    <h2>La corriente te trajo hasta la hoguera de Elara</h2>
+    <p class="intro">El mundo se quebró y las criaturas volvieron. Empiezas sin nada en la Pradera del Alba: cumples misiones, subes de nivel y te abres paso isla por isla hasta que el mar entero es tuyo.</p>
+    <div class="feats">
+      <div class="feat">
+        <svg viewBox="0 0 42 42" aria-hidden="true"><circle cx="21" cy="21" r="20" fill="#1b3a42"/><path d="M12 30 28 14m-3-3 6 6M14 24l4 4" stroke="#e6a33c" stroke-width="2.6" stroke-linecap="round"/></svg>
+        <div><h3>Combate que se siente</h3><p>Espada, bastón arcano y golpes con peso. Esquiva con un impulso y encadena habilidades.</p></div>
+      </div>
+      <div class="feat">
+        <svg viewBox="0 0 42 42" aria-hidden="true"><circle cx="21" cy="21" r="20" fill="#1b3a42"/><path d="M21 9v24M9 21h24M13 13l16 16M29 13 13 29" stroke="#6fd8e6" stroke-width="2.2" stroke-linecap="round"/></svg>
+        <div><h3>Cinco ramas de habilidades</h3><p>Combate, Supervivencia, Arcano, Apoyo y Recolección. Nova de escarcha, cadena de rayos, meteoro, curaciones y más.</p></div>
+      </div>
+      <div class="feat">
+        <svg viewBox="0 0 42 42" aria-hidden="true"><circle cx="21" cy="21" r="20" fill="#1b3a42"/><circle cx="21" cy="23" r="10" fill="none" stroke="#ff7a3d" stroke-width="2.6"/><circle cx="21" cy="23" r="3.5" fill="#ff7a3d"/></svg>
+        <div><h3>Jefes con mecánicas</h3><p>Zonas rojas que hay que esquivar, embestidas, lluvias de cristales, invocaciones y una furia final.</p></div>
+      </div>
+      <div class="feat">
+        <svg viewBox="0 0 42 42" aria-hidden="true"><circle cx="21" cy="21" r="20" fill="#1b3a42"/><path d="M12 31V17l9-6 9 6v14M17 31v-7h8v7" fill="none" stroke="#efe2c4" stroke-width="2.4" stroke-linejoin="round"/></svg>
+        <div><h3>Dungeons en grupo</h3><p>Rejas, placas de presión y un jefe al fondo. Invita a tus amigos y repartan el botín.</p></div>
+      </div>
+      <div class="feat">
+        <svg viewBox="0 0 42 42" aria-hidden="true"><circle cx="21" cy="21" r="20" fill="#1b3a42"/><path d="M10 25h22l-4 6H14zM21 25V10l8 11h-8" fill="none" stroke="#6fd8e6" stroke-width="2.4" stroke-linejoin="round"/></svg>
+        <div><h3>Barco y mar abierto</h3><p>Construye tu barco, mejóralo y navega hacia arrecifes, islas lejanas y tormentas.</p></div>
+      </div>
+      <div class="feat">
+        <svg viewBox="0 0 42 42" aria-hidden="true"><circle cx="21" cy="21" r="20" fill="#1b3a42"/><path d="M11 27h20l-2 5H13zM15 27l2-8h8l2 8M21 19v-8" fill="none" stroke="#e6a33c" stroke-width="2.4" stroke-linejoin="round"/></svg>
+        <div><h3>Minería y forja</h3><p>Pica hierro, plata y cristal. Mejora tu arma de +0 a +10 y encántala con piedras de fuego, escarcha o tormenta.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="galeria">
+    <p class="eyebrow">Capturas del juego</p>
+    <h2>Así se ve</h2>
+    <div class="gallery">
+      <figure><img src="media/hechizos.jpg" alt="El personaje en la costa de la Pradera del Alba, entre árboles y slimes" loading="lazy"><figcaption>La costa de la Pradera del Alba al atardecer.</figcaption></figure>
+      <figure><img src="media/jefe.jpg" alt="Pelea contra el Rey Slime dentro de una cueva con una zona roja en el suelo" loading="lazy"><figcaption>El Rey Slime prepara su Salpicón.</figcaption></figure>
+      <figure><img src="media/dialogo.jpg" alt="Diálogo con Elara, Guardiana del Alba, frente al fuerte" loading="lazy"><figcaption>Elara te recibe en el fuerte.</figcaption></figure>
+      <figure><img src="media/combate.jpg" alt="El Rey Slime invoca su prole en la cueva" loading="lazy"><figcaption>Invocaciones a mitad de la pelea.</figcaption></figure>
+      <figure><img src="media/aldea.jpg" alt="El círculo de piedras rúnicas del fuerte inicial" loading="lazy"><figcaption>El círculo rúnico donde empiezas.</figcaption></figure>
+    </div>
+  </section>
+
+  <section id="descargar">
+    <div class="dl-head">
+      <div>
+        <p class="eyebrow">Descargar</p>
+        <h2>Elige tu plataforma</h2>
+      </div>
+      <span class="stamp">Versión 2.5 · 25 de octubre de 2026</span>
+    </div>
+    <div class="dl">
+      <div class="card rec">
+        <div class="os"><b>Windows</b><span class="pill">Recomendado</span></div>
+        <span class="meta">Windows 10 u 11 · 64 bits</span>
+        <p>El instalador trae todo, también para hostear salas. La versión de doble clic se abre sin instalar nada y sirve para jugar solo o unirte a una sala.</p>
+        <div class="links">
+          <a class="btn btn-main" href="https://github.com/Aaron2809/entropia-medieval-descargas/releases/latest/download/EntropiaMedieval-Setup.exe">Instalador · 63 MB</a>
+          <a class="btn btn-ghost" href="https://github.com/Aaron2809/entropia-medieval-descargas/releases/latest/download/EntropiaMedieval-Windows-Jugar.exe">Doble clic, sin instalar · 106 MB</a>
+        </div>
+      </div>
+      <div class="card">
+        <div class="os"><b>Mac</b></div>
+        <span class="meta">macOS 11 o más nuevo · Intel y Apple</span>
+        <p>Abre el .dmg y arrastra el juego a Aplicaciones. La primera vez: clic derecho → Abrir.</p>
+        <div class="links"><a class="btn btn-ghost" href="https://github.com/Aaron2809/entropia-medieval-descargas/releases/latest/download/EntropiaMedieval-mac.dmg">Descargar .dmg · 189 MB</a></div>
+      </div>
+      <div class="card">
+        <div class="os"><b>Android</b></div>
+        <span class="meta">Android 7 o más nuevo · controles táctiles</span>
+        <p>Instala el APK y permite «instalar apps de origen desconocido». Juega solo sin conexión o únete a la sala de un amigo.</p>
+        <div class="links"><a class="btn btn-ghost" href="https://github.com/Aaron2809/entropia-medieval-descargas/releases/latest/download/EntropiaMedieval.apk">Descargar APK · 27 MB</a></div>
+      </div>
+      <div class="card">
+        <div class="os"><b>iPhone</b><span class="pill" style="background:var(--rune)">Pronto</span></div>
+        <span class="meta">iOS 15 o más nuevo</span>
+        <p>Llega pronto a la App Store, con controles táctiles y juego sin conexión, igual que en Android.</p>
+      </div>
+    </div>
+    <p class="small">¿Buscas otra versión? Todas están en la <a href="https://github.com/Aaron2809/entropia-medieval-descargas/releases">lista de versiones</a>. Para jugar en grupo, uno hostea una sala (hasta 6 jugadores) y los demás entran con el código.</p>
+  </section>
+
+  <section id="novedades">
+    <p class="eyebrow">Novedades</p>
+    <h2>Últimas versiones</h2>
+    <div class="log">
+      <div class="entry"><span class="v">2.5</span><ul>
+        <li><b>Jugar solo sin conexión:</b> el mundo corre dentro del juego, sin servidor ni internet, y la partida se guarda en el dispositivo.</li>
+        <li>En el celular es la forma de jugar solo por defecto.</li>
+      </ul></div>
+      <div class="entry"><span class="v">2.4</span><ul>
+        <li><b>Menú de personajes:</b> crea varios, elige con cuál jugar y borra los que ya no uses.</li>
+      </ul></div>
+      <div class="entry"><span class="v">2.3</span><ul>
+        <li>Fuera las misiones de tutorial que sobraban.</li>
+        <li><b>Tutorial del barco</b> al terminar la tercera isla, con un viaje guiado al arrecife.</li>
+      </ul></div>
+      <div class="entry"><span class="v">2.2</span><ul>
+        <li><b>Dungeons en grupo</b>, gráficos mejorados con hierba al viento y calidad Ultra.</li>
+        <li>Ayuda con /help y una progresión más pausada para las cosas avanzadas.</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Entropia Medieval · hecho por Aaron</span>
+    <a href="#inicio">Volver arriba</a>
+  </footer>
+</div>
+
+</body>
+</html>
