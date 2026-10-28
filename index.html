@@ -113,7 +113,7 @@ body::after {
 }
 .kicker { font: 600 .78rem/1 var(--body); letter-spacing: .4em; text-transform: uppercase; color: var(--gold); margin: 0 0 18px; text-shadow: 0 2px 20px rgba(0, 0, 0, .6); }
 .logo {
-  margin: 0; font: 900 clamp(3.2rem, 13.5vw, 11.5rem)/.86 var(--display); letter-spacing: .02em;
+  margin: 0; font: 900 clamp(2.6rem, min(13.5vw, 19vh), 11.5rem)/.86 var(--display); letter-spacing: .02em;
   background: var(--grad-text); -webkit-background-clip: text; background-clip: text; color: transparent;
   filter: drop-shadow(0 10px 40px rgba(0, 0, 0, .55)) drop-shadow(0 0 60px rgba(255, 140, 80, .25));
 }
@@ -147,7 +147,7 @@ body::after {
 .num::before { content: ""; width: 34px; height: 1px; background: currentColor; }
 .copy.right .num { flex-direction: row-reverse; }
 .copy h2 {
-  margin: 0; font: 900 clamp(2.4rem, 7vw, 5.8rem)/.92 var(--display); letter-spacing: .01em;
+  margin: 0; font: 900 clamp(2rem, min(7vw, 10vh), 5.8rem)/.92 var(--display); letter-spacing: .01em;
   background: var(--grad, var(--grad-text)); -webkit-background-clip: text; background-clip: text; color: transparent;
   filter: drop-shadow(0 6px 30px rgba(0, 0, 0, .5));
 }
@@ -291,6 +291,16 @@ footer a:hover { color: var(--text); }
   #islas { --h: 380vh; }
   .copy { bottom: max(7vh, 40px); }
   .copy.right { left: var(--gutter); }
+}
+
+/* pantallas bajas (celular acostado, ventanas chicas) */
+@media (max-height: 640px) {
+  .scroll-hint { display: none; }
+  .kicker { margin-bottom: 10px; }
+  .tagline { margin-top: 12px; }
+  .hero-cta { margin-top: 18px; }
+  .copy p { margin-top: 10px; }
+  .tags, .stats { display: none; }
 }
 
 /* sin movimiento: todo quieto y visible */
