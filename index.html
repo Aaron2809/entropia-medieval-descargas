@@ -3,292 +3,665 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="Entropia Medieval: RPG de aventura en islas. Tráiler, capturas y descargas para Windows, Mac y Android.">
+<meta name="description" content="Entropia Medieval: RPG de aventura en cinco islas. Combate, hechizos, jefes, barco y dungeons en grupo. Descarga gratis para Windows, Mac y Android.">
+<meta name="theme-color" content="#07060b">
 <meta property="og:title" content="Entropia Medieval">
-<meta property="og:description" content="Despierta en la orilla. Reclama las islas. Descarga gratis para Windows, Mac y Android.">
-<meta property="og:image" content="https://aaron2809.github.io/entropia-medieval-descargas/media/poster.jpg">
+<meta property="og:description" content="Despierta en la orilla. Reclama las islas. Gratis para Windows, Mac y Android.">
+<meta property="og:image" content="https://entropiamedieval.com/media/hero.jpg">
+<meta property="og:url" content="https://entropiamedieval.com/">
+<meta name="twitter:card" content="summary_large_image">
 <title>Entropia Medieval</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=IM+Fell+English:ital@0;1&family=Alegreya+Sans:wght@400;500;700;800&display=swap">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Cormorant+Garamond:ital,wght@1,500;1,600&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="preload" as="image" href="media/hero.jpg" media="(min-width: 761px)">
+<link rel="preload" as="image" href="media/hero-m.jpg" media="(max-width: 760px)">
 <style>
-/* Layout: una sola columna de pergamino sobre mar nocturno; el tráiler manda arriba, las descargas cierran como un sello */
+/* Una sola película vertical: cada capítulo es un escenario fijo (sticky) que cambia con el scroll.
+   Las variables --p (0..1) las escribe el script según cuánto se avanzó dentro de cada escenario. */
 :root {
-  --sea: #0d1c22;
-  --sea-2: #132a31;
-  --sea-3: #1b3a42;
-  --ember: #e6a33c;
-  --ember-hot: #ff7a3d;
-  --parch: #efe2c4;
-  --parch-dim: #b9ad93;
-  --rune: #6fd8e6;
-  --line: rgba(239, 226, 196, .14);
-  --display: "IM Fell English SC", "Iowan Old Style", Georgia, serif;
-  --serif: "IM Fell English", "Iowan Old Style", Georgia, serif;
-  --body: "Alegreya Sans", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --ink: #07060b;
+  --ink-2: #0e0b16;
+  --ink-3: #171224;
+  --text: #f6efe4;
+  --text-dim: #b9b0c4;
+  --gold: #ffd27a;
+  --ember: #ff8a4c;
+  --rose: #ff5d7a;
+  --violet: #8b6cff;
+  --teal: #3ee6c4;
+  --sky: #63c8ff;
+  --line: rgba(246, 239, 228, .12);
+  --glass: rgba(20, 16, 32, .55);
+  --grad-dawn: linear-gradient(100deg, #ffe3a3 0%, #ffb35c 30%, #ff6f6f 62%, #b46bff 100%);
+  --grad-text: linear-gradient(180deg, #fff6e2 0%, #ffd27a 45%, #ff8a4c 78%, #d9466b 100%);
+  --display: "Cinzel", "Trajan Pro", Georgia, serif;
+  --serif: "Cormorant Garamond", Georgia, serif;
+  --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --gutter: max(16px, env(safe-area-inset-left, 0px));
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
-img, video { max-width: 100%; }
-html { background: var(--sea); }
+html { background: var(--ink); scroll-behavior: smooth; }
 body {
-  margin: 0;
-  background: radial-gradient(1200px 600px at 70% -10%, #23444b 0%, transparent 60%), var(--sea);
-  color: var(--parch);
-  font: 400 1.0625rem/1.6 var(--body);
+  margin: 0; background: var(--ink); color: var(--text);
+  font: 400 1rem/1.6 var(--body); -webkit-font-smoothing: antialiased; overflow-x: clip;
 }
-.wrap {
-  max-width: 1080px; margin: 0 auto;
-  padding-left: max(16px, env(safe-area-inset-left, 0px));
-  padding-right: max(16px, env(safe-area-inset-right, 0px));
+img, video { display: block; max-width: 100%; }
+a { color: inherit; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; border-radius: 8px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* grano de película y viñeta sobre todo */
+body::after {
+  content: ""; position: fixed; inset: -50%; z-index: 90; pointer-events: none; opacity: .07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 1.2s steps(6) infinite;
 }
-a { color: var(--ember); }
-a:focus-visible, button:focus-visible, video:focus-visible { outline: 2px solid var(--rune); outline-offset: 3px; border-radius: 6px; }
+@keyframes grain { 0% { transform: translate(0, 0); } 33% { transform: translate(-3%, 2%); } 66% { transform: translate(2%, -3%); } 100% { transform: translate(0, 0); } }
+
+/* barra de progreso */
+.progress { position: fixed; inset: 0 0 auto 0; height: 3px; z-index: 80; background: var(--grad-dawn); transform-origin: 0 50%; transform: scaleX(var(--doc, 0)); }
 
 /* cabecera */
-.top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 18px; }
-.mark { font: 1.15rem/1 var(--display); letter-spacing: .06em; color: var(--parch); text-decoration: none; display: flex; align-items: center; gap: 10px; }
-.mark svg { width: 26px; height: 26px; }
-.ver { font: 700 .78rem/1 var(--body); letter-spacing: .12em; text-transform: uppercase; color: var(--sea); background: var(--ember); padding: 7px 10px; border-radius: 999px; text-decoration: none; white-space: nowrap; }
-
-/* portada */
-.hero { display: grid; gap: 28px; padding-block: 18px 40px; }
-.hero h1 {
-  font: 400 clamp(2.6rem, 8vw, 5.4rem)/.92 var(--display); margin: 0; letter-spacing: .01em; text-wrap: balance;
-  background: linear-gradient(180deg, #fff3d6 0%, var(--ember) 70%, #b0661e 100%);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
+.top {
+  position: fixed; inset: 0 0 auto 0; z-index: 70; display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 14px var(--gutter); padding-top: max(14px, env(safe-area-inset-top, 0px));
+  transition: background .4s, backdrop-filter .4s, box-shadow .4s;
 }
-.hero .lede { font: italic 400 clamp(1.15rem, 2.4vw, 1.45rem)/1.45 var(--serif); color: var(--parch); max-width: 34em; margin: 0; text-wrap: pretty; }
-.hero-text { display: grid; gap: 18px; }
-.cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.top.solid { background: linear-gradient(180deg, rgba(7, 6, 11, .82), rgba(7, 6, 11, .55)); backdrop-filter: blur(14px) saturate(1.3); -webkit-backdrop-filter: blur(14px) saturate(1.3); box-shadow: 0 1px 0 var(--line); }
+.mark { display: flex; align-items: center; gap: 10px; text-decoration: none; font: 700 .95rem/1 var(--display); letter-spacing: .14em; white-space: nowrap; }
+.mark svg { width: 28px; height: 28px; flex: none; }
+.nav { display: flex; align-items: center; gap: 26px; }
+.nav a.l { text-decoration: none; font: 600 .78rem/1 var(--body); letter-spacing: .16em; text-transform: uppercase; color: var(--text-dim); transition: color .2s; }
+.nav a.l:hover { color: var(--text); }
+@media (max-width: 860px) { .nav a.l { display: none; } .mark span { display: none; } }
+
 .btn {
-  display: inline-flex; align-items: center; gap: 10px; text-decoration: none; cursor: pointer;
-  font: 800 1rem/1 var(--body); letter-spacing: .02em; border-radius: 10px; padding: 15px 20px; border: 0;
+  position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; cursor: pointer; border: 0;
+  font: 700 .82rem/1 var(--body); letter-spacing: .14em; text-transform: uppercase; padding: 16px 24px; border-radius: 999px; white-space: nowrap;
+  transition: transform .25s cubic-bezier(.2, .8, .2, 1), box-shadow .25s, filter .25s;
 }
-.btn-main { color: #2a1405; background: linear-gradient(180deg, #ffc76a, var(--ember) 55%, #c9781f); box-shadow: 0 0 0 1px #ffd99a inset, 0 10px 30px -10px var(--ember-hot); }
-.btn-main:hover { filter: brightness(1.08); }
-.btn-ghost { color: var(--parch); background: transparent; box-shadow: 0 0 0 1px var(--line) inset; }
-.btn-ghost:hover { box-shadow: 0 0 0 1px var(--parch-dim) inset; }
+.btn:hover { transform: translateY(-2px); }
+.btn-hot { color: #1b0d06; background: var(--grad-dawn); background-size: 160% 100%; box-shadow: 0 10px 40px -10px rgba(255, 110, 90, .75), inset 0 1px 0 rgba(255, 255, 255, .5); animation: shimmer 6s ease-in-out infinite; }
+.btn-hot:hover { filter: brightness(1.08); box-shadow: 0 16px 50px -10px rgba(255, 110, 90, .9), inset 0 1px 0 rgba(255, 255, 255, .5); }
+@keyframes shimmer { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+.btn-glass { color: var(--text); background: rgba(255, 255, 255, .06); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .18); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.btn-glass:hover { background: rgba(255, 255, 255, .12); }
+.btn-sm { padding: 12px 18px; font-size: .72rem; }
 
-.screen { position: relative; border-radius: 14px; overflow: hidden; background: #000; box-shadow: 0 0 0 1px var(--line), 0 30px 80px -30px #000; aspect-ratio: 16 / 9; max-width: 100%; }
-.screen video, .screen img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.screen .tag { position: absolute; left: 14px; top: 12px; font: 700 .72rem/1 var(--body); letter-spacing: .14em; text-transform: uppercase; background: rgba(13, 28, 34, .78); color: var(--ember); padding: 7px 9px; border-radius: 6px; pointer-events: none; }
+/* escenarios con scroll */
+.scene { position: relative; height: var(--h, 260vh); }
+.stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+.bg { position: absolute; inset: 0; }
+.bg img { width: 100%; height: 100%; object-fit: cover; will-change: transform; }
+.shade { position: absolute; inset: 0; pointer-events: none; }
 
-/* secciones */
-section { padding-block: 44px; border-top: 1px solid var(--line); }
-.eyebrow { font: 700 .78rem/1 var(--body); letter-spacing: .16em; text-transform: uppercase; color: var(--rune); margin: 0 0 10px; }
-h2 { font: 400 clamp(1.9rem, 4.5vw, 2.8rem)/1.05 var(--display); margin: 0 0 14px; text-wrap: balance; }
-.intro { max-width: 40em; color: var(--parch-dim); margin: 0 0 28px; }
-
-/* qué haces: lista tipo diario de viaje */
-.feats { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 26px 36px; }
-.feat { display: grid; grid-template-columns: 42px 1fr; gap: 14px; align-items: start; min-width: 0; }
-.feat svg { width: 42px; height: 42px; }
-.feat h3 { font: 400 1.35rem/1.15 var(--serif); margin: 2px 0 6px; color: var(--parch); }
-.feat p { margin: 0; color: var(--parch-dim); font-size: 1rem; }
-
-/* galería */
-.gallery { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
-.gallery figure { margin: 0; min-width: 0; }
-.gallery figure:nth-child(1) { grid-column: span 4; }
-.gallery figure:nth-child(2) { grid-column: span 2; }
-.gallery figure:nth-child(n+3) { grid-column: span 2; }
-.gallery img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 10px; display: block; box-shadow: 0 0 0 1px var(--line); }
-.gallery figure:nth-child(2) img { height: 100%; }
-.gallery figcaption { font: italic .95rem/1.3 var(--serif); color: var(--parch-dim); margin-top: 7px; }
-@media (max-width: 720px) {
-  .gallery { grid-template-columns: 1fr 1fr; }
-  .gallery figure:nth-child(n) { grid-column: span 1; }
-  .gallery figure:nth-child(1) { grid-column: span 2; }
-  .gallery figure:nth-child(2) img { height: auto; }
+/* 1 · portada */
+#inicio { --h: 230vh; }
+#inicio .bg img { transform: scale(calc(1.18 - var(--p, 0) * .14)) translateY(calc(var(--p, 0) * -3%)); }
+#inicio .shade {
+  background:
+    radial-gradient(120% 80% at 50% 10%, transparent 30%, rgba(7, 6, 11, .55) 75%, var(--ink) 100%),
+    linear-gradient(180deg, rgba(7, 6, 11, .35) 0%, transparent 30%, transparent 55%, var(--ink) 100%),
+    linear-gradient(120deg, rgba(255, 150, 90, .18), rgba(139, 108, 255, .14));
 }
+#inicio .dark { position: absolute; inset: 0; background: var(--ink); opacity: calc(var(--p, 0) * 1.4 - .35); pointer-events: none; }
+.title-wrap {
+  position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 0 var(--gutter);
+  transform: scale(calc(1 + var(--p, 0) * .9)); opacity: calc(1 - var(--p, 0) * 2.2);
+}
+.kicker { font: 600 .78rem/1 var(--body); letter-spacing: .4em; text-transform: uppercase; color: var(--gold); margin: 0 0 18px; text-shadow: 0 2px 20px rgba(0, 0, 0, .6); }
+.logo {
+  margin: 0; font: 900 clamp(3.2rem, 13.5vw, 11.5rem)/.86 var(--display); letter-spacing: .02em;
+  background: var(--grad-text); -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 10px 40px rgba(0, 0, 0, .55)) drop-shadow(0 0 60px rgba(255, 140, 80, .25));
+}
+.logo span { display: block; font-size: .5em; letter-spacing: .32em; margin-top: .18em; padding-left: .32em; }
+.tagline { font: italic 500 clamp(1.15rem, 2.6vw, 1.7rem)/1.35 var(--serif); margin: 22px auto 0; max-width: 30em; color: #fff3df; text-shadow: 0 2px 18px rgba(0, 0, 0, .7); }
+.hero-cta { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 30px; }
+.scroll-hint { position: absolute; left: 50%; bottom: max(26px, env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); display: grid; justify-items: center; gap: 10px; font: 600 .66rem/1 var(--body); letter-spacing: .3em; text-transform: uppercase; color: var(--text-dim); opacity: calc(1 - var(--p, 0) * 5); }
+.scroll-hint i { width: 1px; height: 46px; background: linear-gradient(180deg, transparent, var(--gold)); animation: drip 2s ease-in-out infinite; transform-origin: top; }
+@keyframes drip { 0% { transform: scaleY(0); opacity: 1; } 70% { transform: scaleY(1); opacity: 1; } 100% { transform: scaleY(1); opacity: 0; } }
+
+/* 2 · prólogo: palabras que se encienden */
+#prologo { --h: 220vh; }
+#prologo .stage { display: grid; place-items: center; background: radial-gradient(70% 60% at 50% 50%, #1a1230 0%, var(--ink) 70%); }
+#prologo .stage::before { content: ""; position: absolute; inset: -20%; background: conic-gradient(from calc(var(--p, 0) * 140deg) at 50% 50%, rgba(255, 138, 76, .16), rgba(139, 108, 255, .14), rgba(62, 230, 196, .1), rgba(255, 93, 122, .14), rgba(255, 138, 76, .16)); filter: blur(60px); }
+.words { position: relative; max-width: 20ch; margin: 0; padding: 0 var(--gutter); text-align: center; font: 700 clamp(1.9rem, 5.6vw, 4.6rem)/1.12 var(--display); letter-spacing: .01em; }
+.words .w { opacity: clamp(.1, calc(var(--p, 0) * (var(--n) + 6) - var(--i) - 1), 1); transition: opacity .15s linear; }
+.words .w.hot { background: var(--grad-dawn); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* 3 · capítulos a pantalla completa */
+.chapter .bg img { transform: scale(calc(1.22 - var(--p, 0) * .2)) translateX(calc((var(--p, 0) - .5) * var(--pan, 4%))); }
+.chapter .shade { background: var(--tint), linear-gradient(0deg, rgba(7, 6, 11, .92) 0%, rgba(7, 6, 11, .25) 45%, rgba(7, 6, 11, .1) 70%, rgba(7, 6, 11, .55) 100%); }
+.chapter .veil { position: absolute; inset: 0; background: var(--ink); pointer-events: none; opacity: max(calc(1 - var(--p, 0) * 7), calc((var(--p, 0) - .9) * 10)); }
+.copy {
+  position: absolute; left: var(--gutter); right: var(--gutter); bottom: max(9vh, 60px); max-width: 640px;
+  opacity: clamp(0, min(calc((var(--p, 0) - .14) * 6), calc((.86 - var(--p, 0)) * 6)), 1);
+  transform: translateY(calc((1 - clamp(0, (var(--p, 0) - .14) * 5, 1)) * 40px));
+}
+.copy.right { left: auto; right: var(--gutter); text-align: right; }
+@media (min-width: 900px) { .copy { left: 7vw; } .copy.right { right: 7vw; } }
+.num { display: inline-flex; align-items: center; gap: 12px; font: 600 .74rem/1 var(--body); letter-spacing: .32em; text-transform: uppercase; color: var(--accent, var(--gold)); margin: 0 0 16px; }
+.num::before { content: ""; width: 34px; height: 1px; background: currentColor; }
+.copy.right .num { flex-direction: row-reverse; }
+.copy h2 {
+  margin: 0; font: 900 clamp(2.4rem, 7vw, 5.8rem)/.92 var(--display); letter-spacing: .01em;
+  background: var(--grad, var(--grad-text)); -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 6px 30px rgba(0, 0, 0, .5));
+}
+.copy p { margin: 18px 0 0; font-size: clamp(1rem, 1.6vw, 1.15rem); line-height: 1.65; color: #e9e1ef; text-shadow: 0 1px 14px rgba(0, 0, 0, .8); max-width: 34em; }
+.copy.right p { margin-left: auto; }
+.tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.copy.right .tags { justify-content: flex-end; }
+.tags span { font: 600 .72rem/1 var(--body); letter-spacing: .08em; padding: 9px 12px; border-radius: 999px; background: rgba(255, 255, 255, .07); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .16); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+
+/* 4 · tarjeta lateral (personaje) */
+#vigia { --h: 260vh; }
+#vigia .stage { background: radial-gradient(90% 70% at 80% 40%, #3a1d2e 0%, #160f22 55%, var(--ink) 100%); }
+#vigia .stage::before { content: ""; position: absolute; width: 70vmax; height: 70vmax; right: -20vmax; top: -10vmax; border-radius: 50%; background: radial-gradient(circle, rgba(255, 138, 76, .35), rgba(255, 93, 122, .12) 40%, transparent 70%); filter: blur(20px); transform: translateY(calc(var(--p, 0) * 18vh)); }
+.card-shot {
+  position: absolute; top: 50%; right: 6vw; width: min(56vw, 900px); aspect-ratio: 16 / 10; border-radius: 22px; overflow: hidden;
+  box-shadow: 0 40px 120px -30px rgba(0, 0, 0, .9), 0 0 0 1px rgba(255, 255, 255, .1);
+  transform: translateY(-50%) translateX(calc((1 - clamp(0, var(--p, 0) * 3.2, 1)) * 60vw)) rotate(calc((1 - clamp(0, var(--p, 0) * 3.2, 1)) * 6deg));
+}
+.card-shot img { width: 100%; height: 100%; object-fit: cover; transform: scale(calc(1.15 - var(--p, 0) * .15)); }
+.card-shot::after { content: ""; position: absolute; inset: 0; background: linear-gradient(200deg, transparent 50%, rgba(255, 110, 90, .25)); }
+#vigia .copy h2 { font-size: clamp(2.2rem, 4.6vw, 4.2rem); }
+#vigia .copy { top: 50%; bottom: auto; transform: translateY(calc(-50% + (1 - clamp(0, (var(--p, 0) - .14) * 5, 1)) * 40px)); max-width: 420px; }
+@media (max-width: 860px) {
+  .card-shot { right: 50%; top: 14vh; width: 92vw; transform: translateX(50%) translateY(calc((1 - clamp(0, var(--p, 0) * 3.2, 1)) * 60vh)); }
+  #vigia .copy { top: auto; bottom: 8vh; transform: translateY(calc((1 - clamp(0, (var(--p, 0) - .14) * 5, 1)) * 40px)); max-width: none; }
+}
+.stats { display: grid; grid-template-columns: repeat(3, auto); gap: 22px; margin-top: 26px; justify-content: start; }
+.stats b { display: block; font: 900 clamp(1.6rem, 3vw, 2.2rem)/1 var(--display); background: var(--grad-dawn); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.stats small { display: block; margin-top: 6px; font: 600 .66rem/1.3 var(--body); letter-spacing: .14em; text-transform: uppercase; color: var(--text-dim); }
+
+/* 5 · islas en horizontal */
+#islas { --h: 420vh; }
+#islas .stage { background: linear-gradient(180deg, var(--ink) 0%, #0d0a18 100%); display: flex; flex-direction: column; justify-content: center; }
+.islas-head { padding: 0 var(--gutter); margin: 0 0 4vh; }
+@media (min-width: 900px) { .islas-head { padding-left: 7vw; } }
+.islas-head h2 { margin: 10px 0 0; font: 900 clamp(2rem, 5vw, 4rem)/1 var(--display); background: var(--grad-text); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.track { display: flex; gap: 2.4vw; padding: 0 7vw; width: max-content; will-change: transform; transform: translateX(calc(var(--p, 0) * var(--shift, 0px) * -1)); }
+.isle {
+  position: relative; width: min(74vw, calc(min(62vh, 560px) * 4 / 3)); aspect-ratio: 4 / 3; border-radius: 22px; overflow: hidden; flex: none;
+  box-shadow: 0 30px 80px -30px rgba(0, 0, 0, .9);
+}
+@media (max-width: 760px) { .isle { width: min(84vw, calc(60svh * 3 / 4)); aspect-ratio: 3 / 4; } }
+.isle img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.06); transition: transform 1.2s cubic-bezier(.2, .8, .2, 1); }
+.isle:hover img { transform: scale(1.12); }
+.isle::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(0deg, rgba(7, 6, 11, .92) 0%, rgba(7, 6, 11, .1) 55%), var(--tint); }
+.isle::after { content: ""; position: absolute; inset: 0; z-index: 3; border-radius: inherit; padding: 1px; background: linear-gradient(140deg, rgba(255, 255, 255, .5), transparent 40%, var(--accent) 100%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+.isle .in { position: absolute; z-index: 2; left: 26px; right: 26px; bottom: 24px; }
+.isle .lv { font: 600 .7rem/1 var(--body); letter-spacing: .24em; text-transform: uppercase; color: var(--accent); }
+.isle h3 { margin: 10px 0 8px; font: 700 clamp(1.5rem, 3vw, 2.3rem)/1 var(--display); }
+.isle p { margin: 0; color: #ddd4e6; font-size: .95rem; max-width: 34em; }
+
+/* 6 · tráiler que crece */
+#trailer { --h: 230vh; }
+#trailer .stage { display: grid; place-items: center; background: radial-gradient(80% 60% at 50% 50%, #1b1230, var(--ink) 75%); }
+.screen {
+  position: relative; width: calc(58vw + var(--p2, 0) * 42vw); max-width: 100vw; aspect-ratio: 16 / 9; max-height: 100svh;
+  border-radius: calc(24px - var(--p2, 0) * 24px); overflow: hidden; background: #000;
+  box-shadow: 0 50px 140px -30px rgba(0, 0, 0, .95), 0 0 0 1px rgba(255, 255, 255, .1), 0 0 120px -20px rgba(255, 110, 90, calc(.45 - var(--p2, 0) * .45));
+}
+@media (max-width: 760px) { .screen { width: calc(88vw + var(--p2, 0) * 12vw); } }
+.screen video { width: 100%; height: 100%; object-fit: cover; }
+.screen-label { position: absolute; left: 50%; top: calc(50% - 29vw * 9 / 16 - 120px); transform: translateX(-50%); text-align: center; opacity: calc(1 - var(--p2, 0) * 3); width: 100%; padding: 0 var(--gutter); }
+.screen-label h2 { margin: 8px 0 0; font: 900 clamp(1.8rem, 4.4vw, 3.4rem)/1 var(--display); background: var(--grad-text); -webkit-background-clip: text; background-clip: text; color: transparent; }
+@media (max-width: 760px) { .screen-label { top: calc(50% - 44vw * 9 / 16 - 120px); } }
+.sound { position: absolute; right: 16px; bottom: 16px; z-index: 2; }
+
+/* 7 · secciones normales */
+.block { position: relative; padding: clamp(80px, 12vw, 150px) var(--gutter); }
+.inner { max-width: 1180px; margin: 0 auto; }
+.eyebrow { display: inline-flex; align-items: center; gap: 12px; font: 600 .74rem/1 var(--body); letter-spacing: .32em; text-transform: uppercase; color: var(--gold); margin: 0; }
+.eyebrow::before { content: ""; width: 34px; height: 1px; background: currentColor; }
+.block h2 { margin: 14px 0 0; font: 900 clamp(2.2rem, 5.4vw, 4.4rem)/1 var(--display); background: var(--grad-text); -webkit-background-clip: text; background-clip: text; color: transparent; text-wrap: balance; }
+.lead { margin: 18px 0 0; max-width: 40em; color: var(--text-dim); font-size: 1.08rem; }
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity 1s cubic-bezier(.2, .8, .2, 1), transform 1s cubic-bezier(.2, .8, .2, 1); transition-delay: calc(var(--d, 0) * 90ms); }
+.reveal.on { opacity: 1; transform: none; }
+
+#sistemas { background: radial-gradient(60% 50% at 15% 0%, rgba(139, 108, 255, .16), transparent 70%), radial-gradient(50% 40% at 90% 30%, rgba(255, 138, 76, .12), transparent 70%), var(--ink); }
+.feats { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 18px; margin-top: 54px; }
+.feat {
+  position: relative; padding: 30px 28px; border-radius: 20px; min-width: 0;
+  background: linear-gradient(160deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .015)); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .08); overflow: hidden; transition: transform .4s cubic-bezier(.2, .8, .2, 1);
+}
+.feat:hover { transform: translateY(-4px); }
+.feat::before { content: ""; position: absolute; width: 220px; height: 220px; right: -80px; top: -90px; border-radius: 50%; background: radial-gradient(circle, var(--c), transparent 70%); opacity: .45; }
+.feat .ico { position: relative; width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; background: linear-gradient(140deg, var(--c), rgba(255, 255, 255, .05)); box-shadow: 0 10px 30px -10px var(--c); }
+.feat .ico svg { width: 26px; height: 26px; }
+.feat h3 { position: relative; margin: 22px 0 8px; font: 700 1.3rem/1.2 var(--display); }
+.feat p { position: relative; margin: 0; color: var(--text-dim); font-size: .97rem; }
 
 /* descargas */
-.dl-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 20px; }
-.dl-head .stamp { font: 700 .8rem/1 var(--body); letter-spacing: .12em; text-transform: uppercase; color: var(--parch-dim); font-variant-numeric: tabular-nums; }
-.dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 14px; margin-top: 8px; }
-.card {
-  display: grid; grid-template-rows: auto auto 1fr auto; gap: 8px; min-width: 0;
-  background: linear-gradient(180deg, var(--sea-3), var(--sea-2)); border-radius: 12px; padding: 20px;
-  box-shadow: 0 0 0 1px var(--line) inset;
+#descargar { background: linear-gradient(180deg, var(--ink) 0%, #120c1f 50%, var(--ink) 100%); overflow: hidden; }
+#descargar::before { content: ""; position: absolute; left: 50%; top: 10%; width: 120vmax; height: 60vmax; transform: translateX(-50%); background: radial-gradient(50% 50% at 50% 50%, rgba(255, 110, 90, .18), rgba(139, 108, 255, .1) 50%, transparent 70%); pointer-events: none; }
+.dl-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 18px 30px; }
+.stamp { font: 600 .74rem/1 var(--body); letter-spacing: .2em; text-transform: uppercase; color: var(--text-dim); padding: 10px 14px; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--line); white-space: nowrap; }
+.dl { position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 16px; margin-top: 48px; }
+.plat {
+  position: relative; display: grid; grid-template-rows: auto auto 1fr auto; gap: 10px; min-width: 0; padding: 28px 24px 24px; border-radius: 22px;
+  background: linear-gradient(170deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, .02)); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .09), 0 30px 60px -40px rgba(0, 0, 0, .9);
 }
-.card.rec { box-shadow: 0 0 0 1.5px var(--ember) inset; }
-.card .os { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.card .os b { font: 400 1.5rem/1 var(--display); }
-.card .pill { font: 700 .68rem/1 var(--body); letter-spacing: .12em; text-transform: uppercase; color: #2a1405; background: var(--ember); padding: 5px 7px; border-radius: 4px; }
-.card .meta { font: 500 .85rem/1.3 var(--body); color: var(--rune); font-variant-numeric: tabular-nums; }
-.card p { margin: 0; font-size: .95rem; color: var(--parch-dim); }
-.card .links { display: grid; gap: 8px; margin-top: 6px; }
-.card .btn { justify-content: center; padding: 13px 14px; font-size: .95rem; }
-.small { font-size: .9rem; color: var(--parch-dim); max-width: 46em; }
+.plat.rec { background: linear-gradient(170deg, rgba(255, 160, 100, .14), rgba(139, 108, 255, .06)); }
+.plat.rec::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px; background: var(--grad-dawn); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+.plat .os { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+.plat .os b { display: flex; align-items: center; gap: 12px; font: 700 1.45rem/1 var(--display); }
+.plat .os svg { width: 26px; height: 26px; flex: none; }
+.pill { font: 700 .62rem/1 var(--body); letter-spacing: .16em; text-transform: uppercase; padding: 7px 9px; border-radius: 999px; color: #1b0d06; background: var(--grad-dawn); white-space: nowrap; }
+.pill.soon { background: linear-gradient(100deg, var(--sky), var(--violet)); color: #07060b; }
+.meta { font: 600 .78rem/1.3 var(--body); color: var(--gold); letter-spacing: .02em; }
+.plat p { margin: 0; color: var(--text-dim); font-size: .93rem; }
+.plat .links { display: grid; gap: 10px; margin-top: 10px; }
+.plat .btn { width: 100%; white-space: normal; text-align: center; line-height: 1.25; }
+.fine { position: relative; margin-top: 30px; color: var(--text-dim); font-size: .92rem; max-width: 52em; }
+.fine a { color: var(--gold); }
 
 /* novedades */
-.log { display: grid; gap: 0; }
-.entry { display: grid; grid-template-columns: 92px 1fr; gap: 18px; padding-block: 16px; border-top: 1px dashed var(--line); }
-.entry:first-child { border-top: 0; }
-.entry .v { font: 400 1.6rem/1 var(--display); color: var(--ember); font-variant-numeric: tabular-nums; }
-.entry ul { margin: 0; padding-left: 1.1em; color: var(--parch-dim); }
-.entry li + li { margin-top: 4px; }
-.entry li b { color: var(--parch); font-weight: 700; }
-@media (max-width: 520px) { .entry { grid-template-columns: 1fr; gap: 6px; } }
+#novedades { background: var(--ink); }
+.log { display: grid; gap: 14px; margin-top: 44px; }
+.entry { display: grid; grid-template-columns: 110px 1fr; gap: 24px; padding: 24px 26px; border-radius: 18px; background: linear-gradient(90deg, rgba(255, 255, 255, .05), rgba(255, 255, 255, .01)); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .06); }
+.entry .v { font: 900 2rem/1 var(--display); background: var(--grad-dawn); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.entry .v small { display: block; margin-top: 8px; font: 600 .66rem/1 var(--body); letter-spacing: .14em; text-transform: uppercase; color: var(--text-dim); -webkit-text-fill-color: var(--text-dim); }
+.entry ul { margin: 0; padding-left: 1.1em; color: var(--text-dim); }
+.entry li + li { margin-top: 6px; }
+.entry li b { color: var(--text); font-weight: 600; }
+@media (max-width: 560px) { .entry { grid-template-columns: 1fr; gap: 10px; } }
 
-footer { border-top: 1px solid var(--line); padding-block: 28px 40px; color: var(--parch-dim); font-size: .9rem; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; }
+/* cierre */
+.outro { position: relative; min-height: 90vh; display: grid; place-items: center; text-align: center; overflow: hidden; padding: 120px var(--gutter); }
+.outro .bg img { opacity: .55; transform: scale(1.08); }
+.outro .shade { background: radial-gradient(70% 70% at 50% 50%, rgba(7, 6, 11, .2), var(--ink) 85%), linear-gradient(120deg, rgba(255, 93, 122, .18), rgba(139, 108, 255, .18)); }
+.outro .in { position: relative; }
+.outro h2 { margin: 0; font: 900 clamp(2.6rem, 8vw, 6.6rem)/.92 var(--display); background: var(--grad-text); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 10px 40px rgba(0, 0, 0, .6)); }
+.outro p { font: italic 500 clamp(1.1rem, 2.2vw, 1.5rem)/1.4 var(--serif); margin: 18px 0 30px; color: #f3e6d6; }
+footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding: 28px var(--gutter) max(28px, env(safe-area-inset-bottom, 0px)); color: var(--text-dim); font-size: .85rem; border-top: 1px solid var(--line); background: var(--ink); }
+footer a { color: var(--text-dim); text-decoration: none; }
+footer a:hover { color: var(--text); }
 
-@media (min-width: 900px) {
-  .hero { grid-template-columns: 1fr 1.25fr; align-items: center; gap: 40px; padding-top: 30px; }
+@media (max-width: 760px) {
+  .scene { --h: 200vh; }
+  #inicio { --h: 190vh; }
+  #islas { --h: 380vh; }
+  .copy { bottom: max(7vh, 40px); }
+  .copy.right { left: var(--gutter); }
 }
-@media (prefers-reduced-motion: no-preference) {
-  .hero h1, .hero .lede, .hero .cta { animation: rise .7s cubic-bezier(.2, .7, .2, 1) both; }
-  .hero .lede { animation-delay: .08s; }
-  .hero .cta { animation-delay: .16s; }
-  @keyframes rise { from { transform: translateY(10px); } to { transform: none; } }
+
+/* sin movimiento: todo quieto y visible */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  body::after, .btn-hot, .scroll-hint i { animation: none; }
+  .scene { height: auto !important; }
+  .stage { position: relative; height: 100svh; }
+  #islas .stage { height: auto; padding: 80px 0; }
+  .track { width: auto; flex-wrap: wrap; transform: none; padding: 0 var(--gutter); }
+  .reveal { opacity: 1; transform: none; }
 }
 </style>
 </head>
 <body>
+<div class="progress" aria-hidden="true"></div>
 
+<header class="top" id="top">
+  <a class="mark" href="#inicio" aria-label="Entropia Medieval, inicio">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="sg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe3a3"/><stop offset=".55" stop-color="#ff8a4c"/><stop offset="1" stop-color="#b46bff"/></linearGradient></defs><path d="M16 2 4 7v8c0 7.4 5 12.6 12 15 7-2.4 12-7.6 12-15V7z" fill="#120d1c" stroke="url(#sg)" stroke-width="2"/><path d="M16 9v14M11 14h10" stroke="url(#sg)" stroke-width="2.4" stroke-linecap="round"/></svg>
+    <span>ENTROPIA MEDIEVAL</span>
+  </a>
+  <nav class="nav" aria-label="Secciones">
+    <a class="l" href="#vigia">El juego</a>
+    <a class="l" href="#islas">Islas</a>
+    <a class="l" href="#trailer">Tráiler</a>
+    <a class="l" href="#novedades">Novedades</a>
+    <a class="btn btn-hot btn-sm" href="#descargar">Descargar gratis</a>
+  </nav>
+</header>
 
-<div class="wrap">
-  <header class="top">
-    <a class="mark" href="#inicio">
-      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 4 7v8c0 7.4 5 12.6 12 15 7-2.4 12-7.6 12-15V7z" fill="#1b3a42" stroke="#e6a33c" stroke-width="2"/><path d="M16 9v14M11 14h10" stroke="#efe2c4" stroke-width="2.2" stroke-linecap="round"/></svg>
-      Entropia Medieval
-    </a>
-    <a class="ver" href="#descargar">Versión 2.6</a>
-  </header>
-
-  <div class="hero" id="inicio">
-    <div class="hero-text">
-      <h1>Despierta en la orilla. Reclama las islas.</h1>
-      <p class="lede">Un RPG de aventura en islas encadenadas: lucha contra criaturas y jefes, aprende hechizos, forja tu arma, navega en tu barco y baja a dungeons con amigos. O juega solo, sin conexión, en el celular.</p>
-      <div class="cta">
-        <a class="btn btn-main" href="#descargar">
-          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 20h16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Descargar gratis
-        </a>
-        <a class="btn btn-ghost" href="#trailer">Ver el tráiler</a>
-      </div>
-    </div>
-    <div class="screen" id="trailer">
-      <video controls playsinline muted loop autoplay preload="metadata" poster="media/poster.jpg" aria-label="Tráiler de Entropia Medieval con escenas reales del juego">
-        <source src="media/trailer.mp4" type="video/mp4">
-      </video>
-      <span class="tag">Tráiler · escenas reales</span>
-    </div>
-  </div>
-
-  <section id="juego">
-    <p class="eyebrow">De qué trata</p>
-    <h2>La corriente te trajo hasta la hoguera de Elara</h2>
-    <p class="intro">El mundo se quebró y las criaturas volvieron. Empiezas sin nada en la Pradera del Alba: cumples misiones, subes de nivel y te abres paso isla por isla hasta que el mar entero es tuyo.</p>
-    <div class="feats">
-      <div class="feat">
-        <svg viewBox="0 0 42 42" aria-hidden="true"><circle cx="21" cy="21" r="20" fill="#1b3a42"/><path d="M12 30 28 14m-3-3 6 6M14 24l4 4" stroke="#e6a33c" stroke-width="2.6" stroke-linecap="round"/></svg>
-        <div><h3>Combate que se siente</h3><p>Espada, bastón arcano y golpes con peso. Esquiva con un impulso y encadena habilidades.</p></div>
-      </div>
-      <div class="feat">
-        <svg viewBox="0 0 42 42" aria-hidden="true"><circle cx="21" cy="21" r="20" fill="#1b3a42"/><path d="M21 9v24M9 21h24M13 13l16 16M29 13 13 29" stroke="#6fd8e6" stroke-width="2.2" stroke-linecap="round"/></svg>
-        <div><h3>Cinco ramas de habilidades</h3><p>Combate, Supervivencia, Arcano, Apoyo y Recolección. Nova de escarcha, cadena de rayos, meteoro, curaciones y más.</p></div>
-      </div>
-      <div class="feat">
-        <svg viewBox="0 0 42 42" aria-hidden="true"><circle cx="21" cy="21" r="20" fill="#1b3a42"/><circle cx="21" cy="23" r="10" fill="none" stroke="#ff7a3d" stroke-width="2.6"/><circle cx="21" cy="23" r="3.5" fill="#ff7a3d"/></svg>
-        <div><h3>Jefes con mecánicas</h3><p>Zonas rojas que hay que esquivar, embestidas, lluvias de cristales, invocaciones y una furia final.</p></div>
-      </div>
-      <div class="feat">
-        <svg viewBox="0 0 42 42" aria-hidden="true"><circle cx="21" cy="21" r="20" fill="#1b3a42"/><path d="M12 31V17l9-6 9 6v14M17 31v-7h8v7" fill="none" stroke="#efe2c4" stroke-width="2.4" stroke-linejoin="round"/></svg>
-        <div><h3>Dungeons en grupo</h3><p>Rejas, placas de presión y un jefe al fondo. Invita a tus amigos y repartan el botín.</p></div>
-      </div>
-      <div class="feat">
-        <svg viewBox="0 0 42 42" aria-hidden="true"><circle cx="21" cy="21" r="20" fill="#1b3a42"/><path d="M10 25h22l-4 6H14zM21 25V10l8 11h-8" fill="none" stroke="#6fd8e6" stroke-width="2.4" stroke-linejoin="round"/></svg>
-        <div><h3>Barco y mar abierto</h3><p>Construye tu barco, mejóralo y navega hacia arrecifes, islas lejanas y tormentas.</p></div>
-      </div>
-      <div class="feat">
-        <svg viewBox="0 0 42 42" aria-hidden="true"><circle cx="21" cy="21" r="20" fill="#1b3a42"/><path d="M11 27h20l-2 5H13zM15 27l2-8h8l2 8M21 19v-8" fill="none" stroke="#e6a33c" stroke-width="2.4" stroke-linejoin="round"/></svg>
-        <div><h3>Minería y forja</h3><p>Pica hierro, plata y cristal. Mejora tu arma de +0 a +10 y encántala con piedras de fuego, escarcha o tormenta.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="galeria">
-    <p class="eyebrow">Capturas del juego</p>
-    <h2>Así se ve</h2>
-    <div class="gallery">
-      <figure><img src="media/hechizos.jpg" alt="El personaje en la costa de la Pradera del Alba, entre árboles y slimes" loading="lazy"><figcaption>La costa de la Pradera del Alba al atardecer.</figcaption></figure>
-      <figure><img src="media/jefe.jpg" alt="Pelea contra el Rey Slime dentro de una cueva con una zona roja en el suelo" loading="lazy"><figcaption>El Rey Slime prepara su Salpicón.</figcaption></figure>
-      <figure><img src="media/dialogo.jpg" alt="Diálogo con Elara, Guardiana del Alba, frente al fuerte" loading="lazy"><figcaption>Elara te recibe en el fuerte.</figcaption></figure>
-      <figure><img src="media/combate.jpg" alt="El Rey Slime invoca su prole en la cueva" loading="lazy"><figcaption>Invocaciones a mitad de la pelea.</figcaption></figure>
-      <figure><img src="media/aldea.jpg" alt="El círculo de piedras rúnicas del fuerte inicial" loading="lazy"><figcaption>El círculo rúnico donde empiezas.</figcaption></figure>
-    </div>
-  </section>
-
-  <section id="descargar">
-    <div class="dl-head">
-      <div>
-        <p class="eyebrow">Descargar</p>
-        <h2>Elige tu plataforma</h2>
-      </div>
-      <span class="stamp">Versión 2.6 · 27 de octubre de 2026</span>
-    </div>
-    <div class="dl">
-      <div class="card rec">
-        <div class="os"><b>Windows</b><span class="pill">Recomendado</span></div>
-        <span class="meta">Windows 10 u 11 · 64 bits</span>
-        <p>El instalador trae todo, también para hostear salas. La versión de doble clic se abre sin instalar nada y sirve para jugar solo o unirte a una sala.</p>
-        <div class="links">
-          <a class="btn btn-main" href="https://github.com/Aaron2809/entropia-medieval-descargas/releases/latest/download/EntropiaMedieval-Setup.exe">Instalador · 63 MB</a>
-          <a class="btn btn-ghost" href="https://github.com/Aaron2809/entropia-medieval-descargas/releases/latest/download/EntropiaMedieval-Windows-Jugar.exe">Doble clic, sin instalar · 106 MB</a>
+<main>
+  <!-- portada -->
+  <section class="scene" id="inicio" data-scene>
+    <div class="stage">
+      <div class="bg"><picture><source media="(max-width: 760px)" srcset="media/hero-m.jpg"><img src="media/hero.jpg" alt="El fuerte de la Pradera del Alba al atardecer, con el círculo rúnico en el centro y el mar al fondo" fetchpriority="high"></picture></div>
+      <div class="shade"></div>
+      <div class="title-wrap">
+        <div>
+          <p class="kicker">Un RPG de islas · Versión 2.6</p>
+          <h1 class="logo">ENTROPIA<span>MEDIEVAL</span></h1>
+          <p class="tagline">Despierta en la orilla. Reclama las islas.</p>
+          <div class="hero-cta">
+            <a class="btn btn-hot" href="#descargar">
+              <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 20h16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Descargar gratis
+            </a>
+            <a class="btn btn-glass" href="#trailer">
+              <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v16l13-8z" fill="currentColor"/></svg>
+              Ver el tráiler
+            </a>
+          </div>
         </div>
       </div>
-      <div class="card">
-        <div class="os"><b>Mac</b></div>
-        <span class="meta">macOS 11 o más nuevo · Intel y Apple</span>
-        <p>Abre el .dmg y arrastra el juego a Aplicaciones. La primera vez: clic derecho → Abrir.</p>
-        <div class="links"><a class="btn btn-ghost" href="https://github.com/Aaron2809/entropia-medieval-descargas/releases/latest/download/EntropiaMedieval-mac.dmg">Descargar .dmg · 189 MB</a></div>
-      </div>
-      <div class="card">
-        <div class="os"><b>Android</b></div>
-        <span class="meta">Android 7 o más nuevo · controles táctiles</span>
-        <p>Instala el APK y permite «instalar apps de origen desconocido». Juega solo sin conexión o únete a la sala de un amigo.</p>
-        <div class="links"><a class="btn btn-ghost" href="https://github.com/Aaron2809/entropia-medieval-descargas/releases/latest/download/EntropiaMedieval.apk">Descargar APK · 27 MB</a></div>
-      </div>
-      <div class="card">
-        <div class="os"><b>iPhone</b><span class="pill" style="background:var(--rune)">Pronto</span></div>
-        <span class="meta">iOS 15 o más nuevo</span>
-        <p>Llega pronto a la App Store, con controles táctiles y juego sin conexión, igual que en Android.</p>
-      </div>
-    </div>
-    <p class="small">¿Buscas otra versión? Todas están en la <a href="https://github.com/Aaron2809/entropia-medieval-descargas/releases">lista de versiones</a>. Para jugar en grupo, uno hostea una sala (hasta 6 jugadores) y los demás entran con el código.</p>
-  </section>
-
-  <section id="novedades">
-    <p class="eyebrow">Novedades</p>
-    <h2>Últimas versiones</h2>
-    <div class="log">
-      <div class="entry"><span class="v">2.6</span><ul>
-        <li><b>Unirse a salas sin errores:</b> el código se acepta aunque el celular o WhatsApp le cambien los guiones, le agreguen espacios o se pegue con texto alrededor.</li>
-      </ul></div>
-      <div class="entry"><span class="v">2.5</span><ul>
-        <li><b>Jugar solo sin conexión:</b> el mundo corre dentro del juego, sin servidor ni internet, y la partida se guarda en el dispositivo.</li>
-        <li>En el celular es la forma de jugar solo por defecto.</li>
-      </ul></div>
-      <div class="entry"><span class="v">2.4</span><ul>
-        <li><b>Menú de personajes:</b> crea varios, elige con cuál jugar y borra los que ya no uses.</li>
-      </ul></div>
-      <div class="entry"><span class="v">2.3</span><ul>
-        <li>Fuera las misiones de tutorial que sobraban.</li>
-        <li><b>Tutorial del barco</b> al terminar la tercera isla, con un viaje guiado al arrecife.</li>
-      </ul></div>
-      <div class="entry"><span class="v">2.2</span><ul>
-        <li><b>Dungeons en grupo</b>, gráficos mejorados con hierba al viento y calidad Ultra.</li>
-        <li>Ayuda con /help y una progresión más pausada para las cosas avanzadas.</li>
-      </ul></div>
+      <div class="dark"></div>
+      <div class="scroll-hint" aria-hidden="true">Desliza<i></i></div>
     </div>
   </section>
 
-  <footer>
-    <span>Entropia Medieval · hecho por Aaron</span>
-    <a href="#inicio">Volver arriba</a>
-  </footer>
-</div>
+  <!-- prólogo -->
+  <section class="scene" id="prologo" data-scene>
+    <div class="stage">
+      <p class="words" data-words>El mundo se quebró y las criaturas volvieron. La corriente te dejó junto a la hoguera de Elara. *Cada* *isla* *puede* *ser* *tuya.*</p>
+    </div>
+  </section>
 
+  <!-- el vigía -->
+  <section class="scene" id="vigia" data-scene>
+    <div class="stage">
+      <div class="card-shot"><picture><source media="(max-width: 760px)" srcset="media/mago-m.jpg"><img src="media/mago.jpg" decoding="async" alt="El personaje con el bastón arcano frente a un slime en la pradera al atardecer"></picture></div>
+      <div class="copy">
+        <p class="num">Capítulo I · El Vigía</p>
+        <h2>Tu leyenda empieza sin nada</h2>
+        <p>Una espada oxidada y un pico. Cumples misiones, subes de nivel y repartes puntos entre cinco ramas: Combate, Supervivencia, Arcano, Apoyo y Recolección.</p>
+        <div class="stats">
+          <div><b>5</b><small>Islas</small></div>
+          <div><b>5</b><small>Ramas de<br>habilidades</small></div>
+          <div><b>+10</b><small>Forja de<br>armas</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- combate -->
+  <section class="scene chapter" id="combate" data-scene style="--tint: linear-gradient(140deg, rgba(255, 110, 60, .28), rgba(120, 40, 160, .22)); --accent: #ff8a4c; --grad: linear-gradient(180deg, #fff1d6, #ffb35c 45%, #ff5d4a 80%, #b0305e)">
+    <div class="stage">
+      <div class="bg"><picture><source media="(max-width: 760px)" srcset="media/meteoro-m.jpg"><img src="media/meteoro.jpg" decoding="async" alt="Un meteoro cae sobre el Rey Slime dentro de la Gruta del Alba"></picture></div>
+      <div class="shade"></div>
+      <div class="copy">
+        <p class="num">Capítulo II · Combate</p>
+        <h2>Que caiga el cielo</h2>
+        <p>Espada con peso, bastón arcano que golpea y lanza hechizos. Nova de escarcha, cadena de rayos y meteoro. Esquivas con un impulso y encadenas habilidades.</p>
+        <div class="tags"><span>Meteoro</span><span>Cadena de rayos</span><span>Nova de escarcha</span><span>Torbellino</span></div>
+      </div>
+      <div class="veil"></div>
+    </div>
+  </section>
+
+  <!-- jefes -->
+  <section class="scene chapter" id="jefes" data-scene style="--tint: linear-gradient(200deg, rgba(255, 200, 120, .18), rgba(40, 20, 60, .3)); --accent: #ffd27a; --pan: -6%">
+    <div class="stage">
+      <div class="bg"><picture><source media="(max-width: 760px)" srcset="media/torbellino-m.jpg"><img src="media/torbellino.jpg" decoding="async" alt="El personaje gira en un torbellino rodeado de lobos frente al fuerte"></picture></div>
+      <div class="shade"></div>
+      <div class="copy right">
+        <p class="num">Capítulo III · Jefes</p>
+        <h2>Lee la zona roja</h2>
+        <p>Cada jefe avisa antes de golpear. Embestidas, lluvias de cristales, invocaciones y una furia final cuando le queda poca vida. Si te quedas en lo rojo, lo pagas.</p>
+        <div class="tags"><span>Rey Slime</span><span>Lobo Alfa</span><span>Tirano de Cristal</span></div>
+      </div>
+      <div class="veil"></div>
+    </div>
+  </section>
+
+  <!-- grietas -->
+  <section class="scene chapter" id="grietas" data-scene style="--tint: linear-gradient(160deg, rgba(180, 80, 255, .3), rgba(20, 120, 110, .25)); --accent: #e08bff; --grad: linear-gradient(180deg, #fbeaff, #e08bff 45%, #8b6cff 80%, #3ee6c4)">
+    <div class="stage">
+      <div class="bg"><picture><source media="(max-width: 760px)" srcset="media/grieta-m.jpg"><img src="media/grieta.jpg" decoding="async" alt="Un portal morado entre los pinos del Bosque Umbrío"></picture></div>
+      <div class="shade"></div>
+      <div class="copy">
+        <p class="num">Capítulo IV · Grietas y dungeons</p>
+        <h2>Entra con tu grupo</h2>
+        <p>En cada isla se abre una grieta con cinco oleadas y un jefe. Las dungeons tienen rejas, placas de presión y una cámara final. Invita a tus amigos y repartan el botín.</p>
+        <div class="tags"><span>Hasta 6 jugadores</span><span>Cripta · nivel 8</span><span>Bastión · nivel 14</span></div>
+      </div>
+      <div class="veil"></div>
+    </div>
+  </section>
+
+  <!-- islas -->
+  <section class="scene" id="islas" data-scene data-horizontal>
+    <div class="stage">
+      <div class="islas-head">
+        <p class="eyebrow">Cinco islas, cinco cielos</p>
+        <h2>Navega hasta el final del mapa</h2>
+      </div>
+      <div class="track">
+        <article class="isle" style="--accent: #ffc27a; --tint: linear-gradient(160deg, rgba(255, 170, 110, .25), transparent 60%)">
+          <img src="media/circulo-m.jpg" srcset="media/circulo-m.jpg 960w, media/circulo.jpg 1920w" sizes="(max-width: 760px) 82vw, 760px" alt="El círculo rúnico del fuerte inicial" loading="lazy">
+          <div class="in"><span class="lv">Isla I · Nivel 1+</span><h3>Pradera del Alba</h3><p>El fuerte, la hoguera de Elara y la primera cueva. Aquí aprendes a pelear.</p></div>
+        </article>
+        <article class="isle" style="--accent: #3ee6c4; --tint: linear-gradient(160deg, rgba(62, 230, 196, .2), transparent 60%)">
+          <img src="media/bosque-m.jpg" srcset="media/bosque-m.jpg 960w, media/bosque.jpg 1920w" sizes="(max-width: 760px) 82vw, 760px" alt="El Bosque Umbrío visto desde arriba con hongos que brillan" loading="lazy">
+          <div class="in"><span class="lv">Isla II · Nivel 4+</span><h3>Bosque Umbrío</h3><p>Pinos cerrados, hongos que brillan y lobos que cazan en manada.</p></div>
+        </article>
+        
+        <article class="isle" style="--accent: #a493ff; --tint: linear-gradient(160deg, rgba(139, 108, 255, .28), transparent 60%)">
+          <img src="media/cumbre-m.jpg" srcset="media/cumbre-m.jpg 960w, media/cumbre.jpg 1920w" sizes="(max-width: 760px) 82vw, 760px" alt="La Cumbre de Cristal de noche, llena de cristales azules entre las rocas" loading="lazy">
+          <div class="in"><span class="lv">Isla III · Nivel 8+</span><h3>Cumbre de Cristal</h3><p>Noche permanente y vetas de cristal. Aquí está el Bastión, la dungeon del Tirano de Cristal.</p></div>
+        </article>
+        <article class="isle" style="--accent: #63c8ff; --tint: linear-gradient(160deg, rgba(99, 200, 255, .22), transparent 60%)">
+          <img src="media/arrecife-m.jpg" srcset="media/arrecife-m.jpg 960w, media/arrecife.jpg 1920w" sizes="(max-width: 760px) 82vw, 760px" alt="El Arrecife Esmeralda con corales de colores y el mar alrededor" loading="lazy">
+          <div class="in"><span class="lv">Isla IV · Nivel 10+ · en barco</span><h3>Arrecife Esmeralda</h3><p>Corales, cangrejos gigantes y el primer viaje en tu propio barco.</p></div>
+        </article>
+        <article class="isle" style="--accent: #ff6a4a; --tint: linear-gradient(160deg, rgba(255, 80, 50, .3), transparent 60%)">
+          <img src="media/ceniza-m.jpg" srcset="media/ceniza-m.jpg 960w, media/ceniza.jpg 1920w" sizes="(max-width: 760px) 82vw, 760px" alt="Las Islas de Ceniza bajo un cielo rojo" loading="lazy">
+          <div class="in"><span class="lv">Isla V · Nivel 14+ · en barco</span><h3>Islas de Ceniza</h3><p>Salamandras de fuego y el último tramo del mar. Solo llegan los que se prepararon.</p></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- tráiler -->
+  <section class="scene" id="trailer" data-scene>
+    <div class="stage">
+      <div class="screen-label">
+        <p class="eyebrow">Escenas reales del juego</p>
+        <h2>Míralo en movimiento</h2>
+      </div>
+      <div class="screen">
+        <video id="vid" playsinline muted loop preload="metadata" poster="media/hero.jpg" aria-label="Tráiler de Entropia Medieval con escenas reales del juego">
+          <source src="media/trailer.mp4" type="video/mp4">
+        </video>
+        <button class="btn btn-glass btn-sm sound" id="snd" type="button" aria-pressed="false">Activar sonido</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- sistemas -->
+  <section class="block" id="sistemas">
+    <div class="inner">
+      <p class="eyebrow reveal">Lo que hay dentro</p>
+      <h2 class="reveal" style="--d:1">Sistemas para cientos de horas</h2>
+      <p class="lead reveal" style="--d:2">Nada de pagar para ganar. Todo se consigue jugando, solo o en grupo.</p>
+      <div class="feats">
+        <div class="feat reveal" style="--c: rgba(255, 138, 76, .7); --d:1">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M5 19 17 7m-2.5-2.5 5 5M7 14l3 3"/></svg></div>
+          <h3>Forja y encantamientos</h3><p>Mejora tu arma de +0 a +10 y encántala con piedras de fuego, escarcha o tormenta.</p>
+        </div>
+        <div class="feat reveal" style="--c: rgba(139, 108, 255, .7); --d:2">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M12 3v18M3 12h18M6 6l12 12M18 6 6 18"/></svg></div>
+          <h3>Árbol de habilidades</h3><p>Cinco ramas y atributos libres. Arma un guerrero, un mago o un apoyo que cura y bendice al grupo.</p>
+        </div>
+        <div class="feat reveal" style="--c: rgba(62, 230, 196, .6); --d:3">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"><path d="M3 15h18l-3 5H6zM12 15V4l6 8h-6"/></svg></div>
+          <h3>Barco propio</h3><p>Constrúyelo, mejora velas y casco, y cruza tormentas hasta las islas lejanas.</p>
+        </div>
+        <div class="feat reveal" style="--c: rgba(99, 200, 255, .6); --d:4">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"><path d="M4 20 9 9l4 6 3-4 4 9z"/><circle cx="17" cy="6" r="2"/></svg></div>
+          <h3>Minería y cuevas</h3><p>Pica hierro, plata y cristal. Las cuevas guardan cofres, diarios perdidos y jefes.</p>
+        </div>
+        <div class="feat reveal" style="--c: rgba(255, 93, 122, .6); --d:5">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="8" cy="9" r="3"/><circle cx="16" cy="9" r="3"/><path d="M3 20c0-3 2.5-5 5-5s5 2 5 5m-2-5c1-.6 2-1 3-1 2.5 0 5 2 5 5"/></svg></div>
+          <h3>Salas con amigos</h3><p>Uno abre una sala, los demás entran con un código. Gratis, desde casas y redes distintas.</p>
+        </div>
+        <div class="feat reveal" style="--c: rgba(255, 210, 122, .6); --d:6">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg></div>
+          <h3>También en el celular</h3><p>Controles táctiles y modo sin conexión: el mundo entero corre en tu teléfono.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- descargas -->
+  <section class="block" id="descargar">
+    <div class="inner">
+      <div class="dl-head">
+        <div>
+          <p class="eyebrow reveal">Gratis · sin anuncios</p>
+          <h2 class="reveal" style="--d:1">Elige tu plataforma</h2>
+        </div>
+        <span class="stamp reveal" style="--d:2">Versión 2.6 · 27 oct 2026</span>
+      </div>
+      <div class="dl">
+        <div class="plat rec reveal" style="--d:1">
+          <div class="os"><b><svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M3 5.5 10 4.5v7H3zM11 4.3 21 3v8.5H11zM3 12.5h7v7l-7-1zM11 12.5h10V21l-10-1.4z"/></svg>Windows</b><span class="pill">Recomendado</span></div>
+          <span class="meta">Windows 10 u 11 · 64 bits</span>
+          <p>El instalador trae todo, también para hostear salas. La versión de doble clic se abre sin instalar nada.</p>
+          <div class="links">
+            <a class="btn btn-hot" href="https://github.com/Aaron2809/entropia-medieval-descargas/releases/latest/download/EntropiaMedieval-Setup.exe">Instalador · 63 MB</a>
+            <a class="btn btn-glass" href="https://github.com/Aaron2809/entropia-medieval-descargas/releases/latest/download/EntropiaMedieval-Windows-Jugar.exe">Sin instalar · 106 MB</a>
+          </div>
+        </div>
+        <div class="plat reveal" style="--d:2">
+          <div class="os"><b><svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.5 2-3.6-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9s-1.8-.9-3-.8C7 7.3 5.6 8.2 4.8 9.6c-1.7 2.9-.4 7.1 1.2 9.4.8 1.1 1.7 2.4 2.9 2.4 1.2-.1 1.6-.8 3-.8s1.8.8 3 .7c1.3 0 2.1-1.1 2.8-2.3.9-1.3 1.3-2.6 1.3-2.7-.1 0-2.6-1-2.6-3.7zM14.1 5.6c.6-.8 1.1-1.9 1-3-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.9 1 .1 2.1-.5 2.7-1.3z"/></svg>Mac</b></div>
+          <span class="meta">macOS 11 o más nuevo · Intel y Apple</span>
+          <p>Abre el .dmg y arrastra el juego a Aplicaciones. La primera vez: clic derecho y Abrir.</p>
+          <div class="links"><a class="btn btn-glass" href="https://github.com/Aaron2809/entropia-medieval-descargas/releases/latest/download/EntropiaMedieval-mac.dmg">Descargar .dmg · 189 MB</a></div>
+        </div>
+        <div class="plat reveal" style="--d:3">
+          <div class="os"><b><svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M7 9h10v8a1 1 0 0 1-1 1h-1v3h-2v-3h-2v3H9v-3H8a1 1 0 0 1-1-1zM4.5 9a1 1 0 0 1 2 0v6a1 1 0 0 1-2 0zm13 0a1 1 0 0 1 2 0v6a1 1 0 0 1-2 0zM7.2 8a4.8 4.8 0 0 1 9.6 0zM9.5 5.6l-1-1.6m6 1.6 1-1.6" stroke="#fff" stroke-width=".8"/></svg>Android</b></div>
+          <span class="meta">Android 7 o más nuevo · táctil</span>
+          <p>Instala el APK y permite «instalar apps de origen desconocido». Juega solo sin conexión o únete a una sala.</p>
+          <div class="links"><a class="btn btn-glass" href="https://github.com/Aaron2809/entropia-medieval-descargas/releases/latest/download/EntropiaMedieval.apk">Descargar APK · 27 MB</a></div>
+        </div>
+        <div class="plat reveal" style="--d:4">
+          <div class="os"><b><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10.5 5h3"/></svg>iPhone</b><span class="pill soon">Pronto</span></div>
+          <span class="meta">iOS 15 o más nuevo</span>
+          <p>Llega a la App Store con controles táctiles y juego sin conexión, igual que en Android.</p>
+        </div>
+      </div>
+      <p class="fine reveal">¿Buscas otra versión? Están todas en la <a href="https://github.com/Aaron2809/entropia-medieval-descargas/releases">lista de versiones</a>. Para jugar en grupo, uno hostea una sala (hasta 6 jugadores) y los demás entran con el código.</p>
+    </div>
+  </section>
+
+  <!-- novedades -->
+  <section class="block" id="novedades">
+    <div class="inner">
+      <p class="eyebrow reveal">Novedades</p>
+      <h2 class="reveal" style="--d:1">Últimas versiones</h2>
+      <div class="log">
+        <div class="entry reveal"><span class="v">2.6<small>27 oct</small></span><ul>
+          <li><b>Unirse a salas sin errores:</b> el código se acepta aunque WhatsApp o el celular le cambien los guiones o le agreguen espacios.</li>
+        </ul></div>
+        <div class="entry reveal" style="--d:1"><span class="v">2.5<small>25 oct</small></span><ul>
+          <li><b>Jugar solo sin conexión:</b> el mundo corre dentro del juego, sin servidor ni internet, y la partida se guarda en el dispositivo.</li>
+        </ul></div>
+        <div class="entry reveal" style="--d:2"><span class="v">2.4<small>24 oct</small></span><ul>
+          <li><b>Menú de personajes:</b> crea varios, elige con cuál jugar y borra los que ya no uses.</li>
+        </ul></div>
+        <div class="entry reveal" style="--d:3"><span class="v">2.3<small>24 oct</small></span><ul>
+          <li><b>Tutorial del barco</b> al terminar la tercera isla, con un viaje guiado al Arrecife.</li>
+        </ul></div>
+        <div class="entry reveal" style="--d:4"><span class="v">2.1<small>24 oct</small></span><ul>
+          <li><b>Dungeons en grupo</b>, hierba al viento, terreno nuevo y calidad Ultra.</li>
+        </ul></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- cierre -->
+  <section class="outro">
+    <div class="bg"><img src="media/ceniza-m.jpg" srcset="media/ceniza-m.jpg 960w, media/ceniza.jpg 1920w" sizes="100vw" alt="" loading="lazy"></div>
+    <div class="shade"></div>
+    <div class="in">
+      <h2 class="reveal">Las islas te esperan</h2>
+      <p class="reveal" style="--d:1">Gratis para Windows, Mac y Android.</p>
+      <a class="btn btn-hot reveal" style="--d:2" href="#descargar">Descargar ahora</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>Entropia Medieval · hecho por Aaron</span>
+  <a href="#inicio">Volver arriba</a>
+</footer>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const root = document.documentElement;
+  const top = document.getElementById('top');
+
+  // Prólogo: cada palabra en su propio span; las que llevan * van con degradado.
+  document.querySelectorAll('[data-words]').forEach((el) => {
+    const parts = el.textContent.trim().split(/\s+/);
+    el.textContent = '';
+    el.style.setProperty('--n', parts.length);
+    parts.forEach((w, i) => {
+      const s = document.createElement('span');
+      const hot = w.startsWith('*');
+      s.className = 'w' + (hot ? ' hot' : '');
+      s.style.setProperty('--i', i);
+      s.textContent = w.replace(/\*/g, '');
+      el.append(s, ' ');
+    });
+  });
+
+  const scenes = [...document.querySelectorAll('[data-scene]')];
+  const horizontal = document.querySelector('[data-horizontal]');
+  const track = horizontal && horizontal.querySelector('.track');
+  const trailer = document.getElementById('trailer');
+  const vid = document.getElementById('vid');
+
+  function measure() {
+    if (track) horizontal.style.setProperty('--shift', Math.max(0, track.scrollWidth - innerWidth) + 'px');
+  }
+
+  let ticking = false;
+  function frame() {
+    ticking = false;
+    const vh = innerHeight;
+    const max = root.scrollHeight - vh;
+    root.style.setProperty('--doc', max > 0 ? (scrollY / max).toFixed(4) : 0);
+    top.classList.toggle('solid', scrollY > vh * 0.6);
+    if (reduce) return;
+    for (const s of scenes) {
+      const r = s.getBoundingClientRect();
+      if (r.bottom < -vh || r.top > vh * 2) continue;
+      const p = Math.min(1, Math.max(0, -r.top / (r.height - vh)));
+      s.style.setProperty('--p', p.toFixed(4));
+      if (s === trailer) s.style.setProperty('--p2', Math.min(1, Math.max(0, (p - 0.1) / 0.55)).toFixed(4));
+    }
+  }
+  function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
+
+  addEventListener('scroll', onScroll, { passive: true });
+  addEventListener('resize', () => { measure(); onScroll(); });
+  addEventListener('load', () => { measure(); onScroll(); });
+  measure();
+  frame();
+
+  // Apariciones de las secciones normales.
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); }
+  }, { rootMargin: '0px 0px -12% 0px' });
+  document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+  // El tráiler se reproduce solo cuando está en pantalla.
+  if (vid) {
+    new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) vid.play().catch(() => {}); else vid.pause();
+    }, { threshold: 0.25 }).observe(vid);
+    const snd = document.getElementById('snd');
+    snd.addEventListener('click', () => {
+      vid.muted = !vid.muted;
+      if (!vid.muted) vid.play().catch(() => {});
+      snd.textContent = vid.muted ? 'Activar sonido' : 'Silenciar';
+      snd.setAttribute('aria-pressed', String(!vid.muted));
+    });
+  }
+})();
+</script>
 </body>
 </html>
